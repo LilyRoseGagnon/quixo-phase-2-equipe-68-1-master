@@ -150,7 +150,23 @@ class Plateau:
             pion (str): La valeur du pion à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du pion à insérer.
         """
-        pass
+        ligne = origine[1]
+        y = origine[1]
+
+        plateau_inversé = self.plateau[::-1]
+        indices = [4, 3, 2, 1, 0]
+        
+        for indice, liste in enumerate(plateau_inversé):
+            if indice == indices[ligne-1]:
+                break
+
+            position = (origine[0], y)
+            y += 1
+            Plateau.__setitem__(self.plateau, position, pion)
+            
+            nouveau_pion = Plateau.état_plateau()
+            pion = Plateau.__getitem__(nouveau_pion, position)
+
 
     def insertion_par_le_haut(self, pion, origine):
         """Insère un pion dans le plateau en direction du haut
@@ -159,7 +175,19 @@ class Plateau:
             pion (str): La valeur du pion à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du pion à insérer.
         """
-        pass
+        ligne = origine[1]
+        y = origine[1]
+        
+        for indice, liste in enumerate(self.plateau):
+            if indice == ligne+1:
+                break
+
+            position = (origine[0], y)
+            y += 1
+            Plateau.__setitem__(self.plateau, position, pion)
+            
+            nouveau_pion = Plateau.état_plateau()
+            pion = Plateau.__getitem__(nouveau_pion, position)
 
     def insertion_par_la_gauche(self, pion, origine):
         """Insère un pion dans le plateau en direction de la gauche
@@ -168,7 +196,22 @@ class Plateau:
             pion (str): La valeur du pion à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du pion à insérer.
         """
-        pass
+        colonne = origine[0]
+        x = origine[0]
+        y = origine[1]
+
+        ligne = self.plateau[y]
+        
+        for indice, case in enumerate(ligne):
+            if indice == colonne+1:
+                break
+
+            position = (x, origine[1])
+            x += 1
+            Plateau.__setitem__(self.plateau, position, pion)
+            
+            nouveau_pion = Plateau.état_plateau()
+            pion = Plateau.__getitem__(nouveau_pion, position)
 
     def insertion_par_la_droite(self, pion, origine):
         """Insère un pion dans le plateau en direction de la droite
@@ -177,4 +220,21 @@ class Plateau:
             pion (str): La valeur du pion à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du pion à insérer.
         """
-        pass
+        colonne = origine[0]
+        x = origine[0]
+        y = origine[1]
+
+        ligne = self.plateau[y]
+        ligne_inversée = ligne[::-1]
+        indices = [4, 3, 2, 1, 0]
+        
+        for indice, case in enumerate(ligne_inversée):
+            if indice == indices[colonne-1]:
+                break
+
+            position = (x, origine[1])
+            x += 1
+            Plateau.__setitem__(self.plateau, position, pion)
+            
+            nouveau_pion = Plateau.état_plateau()
+            pion = Plateau.__getitem__(nouveau_pion, position)
