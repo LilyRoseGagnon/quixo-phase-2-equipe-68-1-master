@@ -20,6 +20,12 @@ class Quixo:
         self.plateau = Plateau(plateau)
 
     def état_partie(self):
+        """Retourne une copie du jeu
+        Retourne une copie du jeu pour éviter les effets de bord.
+        Vous ne devez rien modifier dans cette méthode.
+        Returns:
+            dict: La représentation du jeu tel que retourné par le serveur de jeu.
+        """
         return {
             "joueurs": self.joueurs,
             "plateau": self.plateau.état_plateau(),
@@ -74,30 +80,46 @@ class Quixo:
 
         for coordonnée in origine:
             if coordonnée < 1 or coordonnée > 5:
-                raise QuixoError('QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.')
+                raise QuixoError(
+                    'QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.')
 
-        direction = input("Quelle direction voulez-vous insérer? ('haut', 'bas', 'gauche', 'droite') :")
+        direction = input(
+            "Quelle direction voulez-vous insérer? ('haut', 'bas', 'gauche', 'droite') :")
 
-        if direction != 'haut' and direction != 'bas' and direction != 'gauche' and direction != 'droite':
-            raise QuixoError('QuixoError: La direction doit être "haut", "bas", "gauche" ou "droite".')
+        if direction not in ('haut', 'bas', 'gauche', 'droite'):
+            raise QuixoError(
+                'QuixoError: La direction doit être "haut", "bas", "gauche" ou "droite".')
 
         return origine, direction
 
 
 def analyser_commande():
+    """Génère un interpréteur de commande.
+    Returns:
+        Namespace: Un objet Namespace tel que retourné par parser.parse_args().
+            Cet objet aura l'attribut «idul» représentant l'idul du joueur
+            et l'attribut «parties» qui est un booléen True/False.
+    """
     parser = argparse.ArgumentParser()
 
     # Complétez le code ici
     # vous pourriez aussi avoir à ajouter des arguments dans ArgumentParser(...)
-    
+
     parser.add_argument('idul', help='IDUL du joueur')
-    parser.add_argument('-p', '--parties', 
+    parser.add_argument('-p', '--parties',
                         help='Lister les parties existantes', action='store_true')
 
     return parser.parse_args()
 
 
 def formater_les_parties(parties):
+    """Formater la liste des dernières parties.
+    L'ordre doit rester exactement le même que ce qui est passé en paramètre.
+    Args:
+        parties (list): Liste des parties
+    Returns:
+        str: Représentation des parties
+    """
     sortie = ''
     for indice, partie in enumerate(parties):
         index = indice + 1
@@ -108,7 +130,7 @@ def formater_les_parties(parties):
 
         sortie += f'{index} : ' + datetime + ', ' + joueur1 + ' vs ' + joueur2
 
-        if joueur_gagnant == joueur1 or joueur_gagnant == joueur2:
+        if joueur_gagnant in (joueur1, joueur2):
             sortie += ', gagnant: ' + joueur_gagnant
 
         sortie += '\n'
