@@ -44,7 +44,7 @@ class Quixo:
             origine (list[int]): La position (x, y) du pion sur le plateau.
             direction (str): La direction du déplacement, soit "haut", "bas", "gauche" ou "droite".
         """
-        pass
+        Plateau.insertion(self.plateau, pion, origine, direction)
 
     def récupérer_le_coup(self):
         """Demander le prochain coup à jouer au joueur.
@@ -65,7 +65,23 @@ class Quixo:
             Donnez la position d'origine du bloc (x,y) :
             Quelle direction voulez-vous insérer? ('haut', 'bas', 'gauche', 'droite') :
         """
-        pass
+        origine = input("Donnez la position d'origine du bloc (x,y) :")
+        origine = list(origine)
+        origine.remove(',')
+        for element in origine[:]:
+            origine.remove(element)
+            origine.append(int(element))
+
+        for coordonnée in origine:
+            if coordonnée < 1 or coordonnée > 5:
+                raise QuixoError('QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.')
+
+        direction = input("Quelle direction voulez-vous insérer? ('haut', 'bas', 'gauche', 'droite') :")
+
+        if direction != 'haut' and direction != 'bas' and direction != 'gauche' and direction != 'droite':
+            raise QuixoError('QuixoError: La direction doit être "haut", "bas", "gauche" ou "droite".')
+
+        return origine, direction
 
 
 def analyser_commande():
