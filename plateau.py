@@ -48,7 +48,14 @@ class Plateau:
         Raises:
             QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.
         """
-        pass
+        for coordonnée in position:
+            if coordonnée < 1 or coordonnée > 5:
+                raise QuixoError('QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.')
+        
+        x = position[0]
+        y = position[1]
+
+        return self.plateau[y][x]
 
     def __setitem__(self, position, valeur):
         """Modifie la valeur à la position donnée
@@ -61,7 +68,24 @@ class Plateau:
             QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.
             QuixoError: La valeur donnée doit être "X", "O" ou " ".
         """
-        pass
+        for coordonnée in position:
+            if coordonnée < 1 or coordonnée > 5:
+                raise QuixoError('QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.')
+            
+        if valeur != 'X' and valeur != 'O' and valeur != ' ':
+            raise QuixoError('QuixoError: La valeur donnée doit être "X", "O" ou " ".')
+        
+        x = position[0]
+        y = position[1]
+
+        del self.plateau[y][x]
+
+        liste_modifier = self.plateau[y]
+        liste_modifier = liste_modifier.insert(x, valeur)
+
+        del self.plateau[y]
+
+        self.plateau.insert(y, liste_modifier)
 
     def construire_plateau(self, plateau):
         """Construit un plateau de jeu
@@ -81,8 +105,9 @@ class Plateau:
             QuixoError: Le plateau doit être une liste de 5 listes de 5 éléments.
             QuixoError: Les éléments du plateau doivent être "X", "O" ou " ".
         """
-        if plateau is None:
-            return Plateau.__str__(plateau)
+        if plateau == None:
+            liste_vide = [' ', ' ', ' ', ' ', ' ']
+            return [liste_vide, liste_vide, liste_vide, liste_vide, liste_vide]
         
         if len(plateau) != 5:
             raise QuixoError('QuixoError: Le plateau doit être une liste de 5 listes de 5 éléments.')
@@ -95,7 +120,7 @@ class Plateau:
                 if case != 'X' and case != 'O' and case != ' ':
                     raise QuixoError('QuixoError: Les éléments du plateau doivent être "X", "O" ou " ".')
         
-        return Plateau.__str__(plateau)
+        return plateau
 
 
     def insertion(self, pion, origine, direction):
