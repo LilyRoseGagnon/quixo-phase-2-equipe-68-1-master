@@ -16,44 +16,23 @@ from quixo_error import QuixoError
 
 class Quixo:
     def __init__(self, joueurs, plateau=None) -> None:
-        """Constructeur de la classe Quixo
-
-        Vous ne devez rien modifier dans cette méthode.
-
-        Args:
-            joueurs (list[str]): La liste des deux joueurs.
-                Le premier joueur possède le symbole "X" et le deuxième "O".
-            plateau (list[list[str]], optional): La représentation du plateau
-                tel que retourné par le serveur de jeu ou la valeur None par défaut.
-        """
         self.joueurs = joueurs
         self.plateau = Plateau(plateau)
 
     def état_partie(self):
-        """Retourne une copie du jeu
-
-        Retourne une copie du jeu pour éviter les effets de bord.
-        Vous ne devez rien modifier dans cette méthode.
-
-        Returns:
-            dict: La représentation du jeu tel que retourné par le serveur de jeu.
-        """
         return {
             "joueurs": self.joueurs,
             "plateau": self.plateau.état_plateau(),
         }
 
     def __str__(self):
-        """Retourne une représentation en chaîne de caractères de la partie
+        joueur1 = self.joueurs[0]
+        joueur2 = self.joueurs[1]
+        légende = f'Légende: X={joueur1}, O={joueur2}\n'
 
-        Déplacer le code de vos fonctions formater_légende et formater_jeu ici.
-        Adaptez votre code en conséquence et faites appel à Plateau
-        pour obtenir la représentation du plateau.
+        état = Plateau.__str__(self.plateau)
 
-        Returns:
-            str: Une représentation en chaîne de caractères du plateau.
-        """
-        pass
+        return légende + état
 
     def déplacer_pion(self, pion, origine, direction):
         """Déplacer un pion dans une direction donnée.
@@ -90,29 +69,32 @@ class Quixo:
 
 
 def analyser_commande():
-    """Génère un interpréteur de commande.
-    Returns:
-        Namespace: Un objet Namespace tel que retourné par parser.parse_args().
-            Cet objet aura l'attribut «idul» représentant l'idul du joueur
-            et l'attribut «parties» qui est un booléen True/False.
-    """
     parser = argparse.ArgumentParser()
 
     # Complétez le code ici
     # vous pourriez aussi avoir à ajouter des arguments dans ArgumentParser(...)
+    
+    parser.add_argument('idul', help='IDUL du joueur')
+    parser.add_argument('-p', '--parties', 
+                        help='Lister les parties existantes', action='store_true')
 
     return parser.parse_args()
 
 
 def formater_les_parties(parties):
-    """Formater la liste des dernières parties.
+    sortie = ''
+    for indice, partie in enumerate(parties):
+        index = indice + 1
+        datetime = partie['date']
+        joueur1 = partie['joueurs'][0]
+        joueur2 = partie['joueurs'][1]
+        joueur_gagnant = partie['gagnant']
 
-    L'ordre doit rester exactement le même que ce qui est passé en paramètre.
+        sortie += f'{index} : ' + datetime + ', ' + joueur1 + ' vs ' + joueur2
 
-    Args:
-        parties (list): Liste des parties
+        if joueur_gagnant == joueur1 or joueur_gagnant == joueur2:
+            sortie += ', gagnant: ' + joueur_gagnant
 
-    Returns:
-        str: Représentation des parties
-    """
-    pass
+        sortie += '\n'
+
+    return sortie
