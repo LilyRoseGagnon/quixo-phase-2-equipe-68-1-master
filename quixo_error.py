@@ -3,5 +3,5 @@
 Classes:
     * QuixoError - Classe d'erreur pour le jeu Quixo.
 """
-class QuixoError(Exception): 
+class QuixoError(Exception):
     pass
