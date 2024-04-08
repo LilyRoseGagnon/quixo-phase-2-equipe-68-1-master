@@ -50,8 +50,9 @@ class Plateau:
         """
         for coordonnée in position:
             if coordonnée < 1 or coordonnée > 5:
-                raise QuixoError('QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.')
-        
+                raise QuixoError(
+                    'QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.')
+
         x = position[0]
         y = position[1]
 
@@ -70,11 +71,12 @@ class Plateau:
         """
         for coordonnée in position:
             if coordonnée < 1 or coordonnée > 5:
-                raise QuixoError('QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.')
-            
-        if valeur != 'X' and valeur != 'O' and valeur != ' ':
+                raise QuixoError(
+                    'QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.')
+
+        if valeur not in ('X', 'O', ' '):
             raise QuixoError('QuixoError: La valeur donnée doit être "X", "O" ou " ".')
-        
+
         x = position[0]
         y = position[1]
 
@@ -105,22 +107,25 @@ class Plateau:
             QuixoError: Le plateau doit être une liste de 5 listes de 5 éléments.
             QuixoError: Les éléments du plateau doivent être "X", "O" ou " ".
         """
-        if plateau == None:
+        if plateau is None:
             liste_vide = [' ', ' ', ' ', ' ', ' ']
             plateau_vide = [liste_vide, liste_vide, liste_vide, liste_vide, liste_vide]
             return plateau_vide
-        
+
         if len(plateau) != 5:
-            raise QuixoError('QuixoError: Le plateau doit être une liste de 5 listes de 5 éléments.')
-        
+            raise QuixoError(
+                'QuixoError: Le plateau doit être une liste de 5 listes de 5 éléments.')
+
         for liste in plateau:
             if len(liste) != 5:
-                raise QuixoError('QuixoError: Le plateau doit être une liste de 5 listes de 5 éléments.')
-            
+                raise QuixoError(
+                    'QuixoError: Le plateau doit être une liste de 5 listes de 5 éléments.')
+
             for case in liste:
-                if case != 'X' and case != 'O' and case != ' ':
-                    raise QuixoError('QuixoError: Les éléments du plateau doivent être "X", "O" ou " ".')
-        
+                if case not in ('X', 'O', ' '):
+                    raise QuixoError(
+                        'QuixoError: Les éléments du plateau doivent être "X", "O" ou " ".')
+
         return plateau
 
 
@@ -142,21 +147,22 @@ class Plateau:
             QuixoError: La direction doit être "haut", "bas", "gauche" ou "droite".
             QuixoError: Le pion à insérer doit être "X" ou "O".
         """
-        if direction != 'haut' and direction != 'bas' and direction != 'gauche' and direction != 'droite':
-            raise QuixoError('QuixoError: La direction doit être "haut", "bas", "gauche" ou "droite".')
-        
-        if pion != 'X' and pion != 'O':
+        if direction not in ('haut', 'bas', 'gauche', 'droite'):
+            raise QuixoError(
+                'QuixoError: La direction doit être "haut", "bas", "gauche" ou "droite".')
+
+        if pion not in ('X', 'O'):
             raise QuixoError('QuixoError: Le pion à insérer doit être "X" ou "O".')
-        
+
         if direction == 'bas':
             Plateau.insertion_par_le_bas(self.plateau, pion, origine)
 
         if direction == 'haut':
             Plateau.insertion_par_le_haut(self.plateau, pion, origine)
-        
+
         if direction == 'gauche':
             Plateau.insertion_par_la_gauche(self.plateau, pion, origine)
-        
+
         if direction == 'droite':
             Plateau.insertion_par_la_droite(self.plateau, pion, origine)
 
@@ -172,7 +178,7 @@ class Plateau:
 
         plateau_inversé = self.plateau[::-1]
         indices = [4, 3, 2, 1, 0]
-        
+
         for indice, liste in enumerate(plateau_inversé):
             if indice == indices[ligne-1]:
                 break
@@ -180,7 +186,7 @@ class Plateau:
             position = (origine[0], y)
             y += 1
             Plateau.__setitem__(self.plateau, position, pion)
-            
+
             nouveau_pion = Plateau.état_plateau()
             pion = Plateau.__getitem__(nouveau_pion, position)
 
@@ -194,7 +200,7 @@ class Plateau:
         """
         ligne = origine[1]
         y = origine[1]
-        
+
         for indice, liste in enumerate(self.plateau):
             if indice == ligne+1:
                 break
@@ -202,7 +208,7 @@ class Plateau:
             position = (origine[0], y)
             y += 1
             Plateau.__setitem__(self.plateau, position, pion)
-            
+
             nouveau_pion = Plateau.état_plateau()
             pion = Plateau.__getitem__(nouveau_pion, position)
 
@@ -218,7 +224,7 @@ class Plateau:
         y = origine[1]
 
         ligne = self.plateau[y]
-        
+
         for indice, case in enumerate(ligne):
             if indice == colonne+1:
                 break
@@ -226,7 +232,7 @@ class Plateau:
             position = (x, origine[1])
             x += 1
             Plateau.__setitem__(self.plateau, position, pion)
-            
+
             nouveau_pion = Plateau.état_plateau()
             pion = Plateau.__getitem__(nouveau_pion, position)
 
@@ -244,7 +250,7 @@ class Plateau:
         ligne = self.plateau[y]
         ligne_inversée = ligne[::-1]
         indices = [4, 3, 2, 1, 0]
-        
+
         for indice, case in enumerate(ligne_inversée):
             if indice == indices[colonne-1]:
                 break
@@ -252,6 +258,6 @@ class Plateau:
             position = (x, origine[1])
             x += 1
             Plateau.__setitem__(self.plateau, position, pion)
-            
+
             nouveau_pion = Plateau.état_plateau()
             pion = Plateau.__getitem__(nouveau_pion, position)
