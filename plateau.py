@@ -141,7 +141,23 @@ class Plateau:
             QuixoError: La direction doit être "haut", "bas", "gauche" ou "droite".
             QuixoError: Le pion à insérer doit être "X" ou "O".
         """
-        pass
+        if direction != 'haut' and direction != 'bas' and direction != 'gauche' and direction != 'droite':
+            raise QuixoError('QuixoError: La direction doit être "haut", "bas", "gauche" ou "droite".')
+        
+        if pion != 'X' and pion != 'O':
+            raise QuixoError('QuixoError: Le pion à insérer doit être "X" ou "O".')
+        
+        if direction == 'bas':
+            Plateau.insertion_par_le_bas(self.plateau, pion, origine)
+
+        if direction == 'haut':
+            Plateau.insertion_par_le_haut(self.plateau, pion, origine)
+        
+        if direction == 'gauche':
+            Plateau.insertion_par_la_gauche(self.plateau, pion, origine)
+        
+        if direction == 'droite':
+            Plateau.insertion_par_la_droite(self.plateau, pion, origine)
 
     def insertion_par_le_bas(self, pion, origine):
         """Insère un pion dans le plateau en direction du bas
