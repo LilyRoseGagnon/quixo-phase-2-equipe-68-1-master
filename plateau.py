@@ -21,7 +21,7 @@ class Plateau:
         interligne = '  |---|---|---|---|---|'
         conclusion = '--|---|---|---|---|---\n' + '  | 1   2   3   4   5\n'
 
-        for indice, row in enumerate(self):
+        for indice, row in enumerate(self.plateau):
             indice = indice + 1
             ligne = f'{indice}'
             for index, case in enumerate(row):
@@ -81,7 +81,22 @@ class Plateau:
             QuixoError: Le plateau doit être une liste de 5 listes de 5 éléments.
             QuixoError: Les éléments du plateau doivent être "X", "O" ou " ".
         """
-        pass
+        if plateau is None:
+            return Plateau.__str__(plateau)
+        
+        if len(plateau) != 5:
+            raise QuixoError('QuixoError: Le plateau doit être une liste de 5 listes de 5 éléments.')
+        
+        for liste in plateau:
+            if len(liste) != 5:
+                raise QuixoError('QuixoError: Le plateau doit être une liste de 5 listes de 5 éléments.')
+            
+            for case in liste:
+                if case != 'X' and case != 'O' and case != ' ':
+                    raise QuixoError('QuixoError: Les éléments du plateau doivent être "X", "O" ou " ".')
+        
+        return Plateau.__str__(plateau)
+
 
     def insertion(self, pion, origine, direction):
         """Insère un pion dans le plateau
