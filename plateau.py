@@ -31,8 +31,8 @@ class Plateau:
             if indice == 1:
                 grille += ligne + '\n'
 
-        else:
-            grille += interligne + '\n' + ligne + '\n'
+            else:
+                grille += interligne + '\n' + ligne + '\n'
 
         return grille + conclusion
 
@@ -107,7 +107,8 @@ class Plateau:
         """
         if plateau == None:
             liste_vide = [' ', ' ', ' ', ' ', ' ']
-            return [liste_vide, liste_vide, liste_vide, liste_vide, liste_vide]
+            plateau_vide = [liste_vide, liste_vide, liste_vide, liste_vide, liste_vide]
+            return plateau_vide
         
         if len(plateau) != 5:
             raise QuixoError('QuixoError: Le plateau doit être une liste de 5 listes de 5 éléments.')
