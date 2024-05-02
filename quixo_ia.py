@@ -212,8 +212,87 @@ class QuixoIA(Quixo):
 
         return origine, direction
 
-    def trouver_coup_bloquant():
-        pass
+    def trouver_coup_bloquant(pion):
+        plateau = Plateau.self.plateau
+        diago = QuixoIA.valider_diagonale(plateau, 4)
+        horiz = QuixoIA.valider_horizontale(plateau, 4)
+        vert = QuixoIA.valider_verticale(plateau, 4)
+
+        if pion == 'X':
+            pion_adv = 'O'
+        if pion == 'O':
+            pion_adv = 'X'
+
+        if diago[pion_adv] == [] and horiz[pion_adv] == [] and vert[pion_adv] == []:
+            raise QuixoError("Aucun coup bloquant possible.")
+        
+        # Trouver case manquante
+        if diago[pion_adv] != []:
+            if diago[pion_adv] == [[1, 1], [5, 5]]:
+                for ligne, liste in enumerate(plateau):
+                    if liste[ligne] == pion_adv:
+                        continue
+                    else:
+                        case = [ligne+1, ligne+1]
+            if diago[pion_adv] == [[1, 5], [5, 1]]:
+                for ligne, liste in enumerate(plateau):
+                    if liste[4-ligne] == pion_adv:
+                        continue
+                    else:
+                        case = [ligne+1, 4-ligne]
+
+        if horiz[pion_adv] != []:
+            line = horiz[pion_adv][0][1] - 1
+            for indice, position in enumerate(plateau[line]):
+                if position == pion_adv:
+                    continue
+                else:
+                    case = [indice+1, line+1]
+
+        if vert[pion_adv] != []:
+            colonne = vert[pion_adv][0][0] - 1
+            for ligne, liste in enumerate(plateau):
+                if liste[colonne] == pion_adv:
+                    continue
+                else:
+                    case = [colonne+1, ligne+1]
+
+        #Déterminer le coup
+        if case[0] == 1:
+            origine = ['5', f'{case[1]}']
+            direction = 'gauche'
+        if case[0] == 5:
+            origine = ['1', f'{case[1]}']
+            direction = 'droite'
+        if case[1] == 1:
+            origine = [f'{case[0]}', '5']
+            direction = 'haut'
+        if case[1] == 5:
+            origine = [f'{case[0]}', '1']
+            direction == 'bas'
+        
+        case_haut = [case[0], case[1]-1]
+        case_bas = [case[0], case[1]+1]
+        case_gauche = [case[0]-1, case[1]]
+        case_droite = [case[0]+1, case[1]]
+
+        if plateau[case_haut[1]-1][case_haut[0]-1] == pion:
+            origine = [f'{case_haut[0]}', '5']
+            direction = 'haut'
+        if plateau[case_bas[1]-1][case_bas[0]-1] == pion:
+            origine = [f'{case_bas[0]}', '1']
+            direction = 'bas'
+        if plateau[case_gauche[1]-1][case_gauche[0]-1] == pion:
+            origine = ['5', f'{case_gauche[1]}']
+            direction = 'gauche'
+        if plateau[case_droite[1]-1][case_droite[0]-1] == pion:
+            origine = ['1', f'{case_droite[1]}']
+            direction = 'droite'
+
+        if plateau[(int(origine[1]))-1][(int(origine[0]))-1] != '':
+            raise QuixoError("Aucun coup bloquant possible.")
+
+        return origine, direction
 
     def jouer_le_coup():
         pass
