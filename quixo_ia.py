@@ -294,5 +294,9 @@ class QuixoIA(Quixo):
 
         return origine, direction
 
-    def jouer_le_coup():
-        pass
+    def jouer_le_coup(pion):
+        if QuixoIA.partie_terminée(Plateau.self.plateau) is True:
+            raise QuixoError("La partie déjà est terminée.")
+        if pion not in ('X', 'O'):
+            raise QuixoError('Le pion doit être "X" ou "O".')
+        
