@@ -300,3 +300,32 @@ class QuixoIA(Quixo):
         if pion not in ('X', 'O'):
             raise QuixoError('Le pion doit être "X" ou "O".')
         
+        if QuixoIA.trouver_coup_gagnant(pion) is True:
+            Quixo.déplacer_pion(pion, QuixoIA.trouver_coup_gagnant(pion))
+            return QuixoIA.trouver_coup_gagnant(pion)
+        
+        if QuixoIA.trouver_coup_bloquant(pion) is True:
+            Quixo.déplacer_pion(pion, QuixoIA.trouver_coup_bloquant(pion))
+            return QuixoIA.trouver_coup_bloquant(pion)
+
+        else:
+            for ligne, liste in Plateau.self.plateau:
+                if origine is True:
+                    break
+                if ligne == 0 or ligne == 4:
+                    indice = liste.index('')
+                    origine = [f'{indice+1}', f'{ligne+1}']
+                else:
+                    continue
+            
+            if int(origine[0]) == 1:
+                direction = 'droite'
+            if int(origine[0]) == 5:
+                direction = 'gauche'
+            if int(origine[1]) == 1:
+                direction = 'bas'
+            if int(origine[1]) == 5:
+                direction = 'haut'
+
+            Quixo.déplacer_pion(pion, origine, direction)
+            return origine, direction
