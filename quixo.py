@@ -108,6 +108,8 @@ def analyser_commande():
     parser.add_argument('idul', help='IDUL du joueur')
     parser.add_argument('-p', '--parties',
                         help='Lister les parties existantes', action='store_true')
+    parser.add_argument('-a', '--automatique',
+                        help='Jouer automatiquement', bool=False)
 
     return parser.parse_args()
 
