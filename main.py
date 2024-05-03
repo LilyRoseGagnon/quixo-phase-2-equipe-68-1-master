@@ -24,7 +24,14 @@ if __name__ == "__main__":
             # Afficher la partie
             print(quixo)
             # Jouer le coup
-            QuixoIA.jouer_le_coup()
+            origine, direction = QuixoIA.jouer_le_coup()
+            id_partie, joueurs, plateau = jouer_coup(
+                id_partie,
+                origine,
+                direction,
+                args.idul,
+                SECRET,
+            )
             print(Plateau.self.plateau)
             if QuixoIA.partie_terminée(Plateau.self.plateau) is True:
                 print(QuixoIA.partie_terminée(Plateau.self.plateau))
